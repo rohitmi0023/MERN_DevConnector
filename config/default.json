@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://rohitmi0023:rohitmi0023@cluster0-wfanr.mongodb.net/test?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://rohitmi0023:rohitmi0023@cluster0-wfanr.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
 }
