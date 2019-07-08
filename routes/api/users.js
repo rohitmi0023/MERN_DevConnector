@@ -13,6 +13,7 @@ const router = express.Router();
 //@desc  Register route
 //@access Public
 router.post(
+	//Post is used to add new data in Non-Idempotent request (URL changes), put is used to update data in Idempotent request(URL remains same)
 	'/',
 	[
 		check('name', `Name is required!`)
@@ -25,18 +26,21 @@ router.post(
 		).isLength({ min: 6 })
 	],
 	async (req, res) => {
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() });
+		const errors = validationResult(req); //To handle the response of express validator, returns a Result Object
+		const hasErrors = !errors.isEmpty(); //.isEmpty() returns a boolean indicating whether this result object contains no errors at all.
+		if (hasErrors) {
+			return res.status(400).json({ errors: errors.array() }); //.array returns an ARRAY of validation errors, an object within it called errors which will give other objects
 		}
-		const { name, email, password } = req.body;
+		const { name, email, password } = req.body; //Destructuring to directly get name without typing req.body.name, etc
+		//To make req.body work, we have to initialize the middlwware for the body-parser
 		try {
 			let user = await User.findOne({ email }); //GET THE USER
+			//above one can be witten as let user = await User.findOne({ email: req.body.email })
 			if (user) {
 				//See if user already exists
 				return res
 					.status(400)
-					.json({ errors: [{ msg: `User already exists!` }] });
+					.json({ errors: [{ msg: `User already exists!` }] }); //returns an object with an errors array
 			}
 			// //Get users gravatar
 			const avatar = gravatar.url(email, {
@@ -45,6 +49,7 @@ router.post(
 				d: 'mm'
 			});
 			user = new User({
+				//Creating an instancr of user
 				//Create the user
 				name,
 				email,
@@ -52,9 +57,9 @@ router.post(
 				password
 			});
 			//Encrypt password
-			const salt = await bcrypt.genSalt(10);
+			const salt = await bcrypt.genSalt(10); //Creating a salt to do hashing
 			user.password = await bcrypt.hash(password, salt); //Hash the password
-			await user.save(); //Save the user in database
+			await user.save(); //Save the user in database, gives us a promise
 			const payload = {
 				//Get the payload which has user id
 				user: {
@@ -72,7 +77,7 @@ router.post(
 				}
 			);
 		} catch (err) {
-			console.log(err.message);
+			console.error(err.message);
 			res.send(500).send(`Server Error...`);
 		}
 	}

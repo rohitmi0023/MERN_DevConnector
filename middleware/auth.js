@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 module.exports = middleware = (req, res, next) => {
-	//Get the token from header
+	//Get the token from header, whrn we send a request to a protected route, we need to send the token with a header
 	const token = req.header('x-auth-token');
 
 	//Check if no token
@@ -12,9 +12,9 @@ module.exports = middleware = (req, res, next) => {
 
 	//Verify Token
 	try {
-		const decoded = jwt.verify(token, config.get('jwtSecret'));
+		const decoded = jwt.verify(token, config.get('jwtSecret')); //Decoding the token
 
-		req.user = decoded.user;
+		req.user = decoded.user; //req.user will now have all the info. of the user
 		next();
 	} catch (err) {
 		res.status(401).json({ msg: `Token is not valid` });

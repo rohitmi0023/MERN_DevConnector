@@ -8,7 +8,7 @@ const app = express();
 connectDB();
 
 //Init Middleware
-app.use(express.json({ extended: false }));
+app.use(express.json({ extended: false })); //Instead of doing bodyParser.json
 
 //App routes
 app.use('/api/users', require('./routes/api/users'));
