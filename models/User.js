@@ -27,5 +27,5 @@ const UserSchema = new mongoose.Schema(
 ); //The {timestamps: true} option creates a createdAt and updatedAt field on our models that
 // contain timestamps which will get automatically updated when our model changes.
 
-module.exports = User = mongoose.model('User', UserSchema); //It registers our schema with mongoose. Our user
+module.exports = User = mongoose.model('user', UserSchema); //It registers our schema with mongoose. Our user
 //model can then be accessed anywhere in our application by calling mongoose.model('User').
