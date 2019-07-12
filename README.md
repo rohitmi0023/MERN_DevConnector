@@ -1,2 +1,2 @@
 # MERN_DevConnector
-Practsing DevConnector project of Brad Traversy
+Practising DevConnector project of Brad Traversy
