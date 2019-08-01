@@ -1,4 +1,18 @@
 {
     "editor.fontFamily": "Fira Code Retina",
     "editor.fontLigatures": true,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#95dcd0",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#bf6fd0",
+        "activityBarBadge.foreground": "#15202b",
+        "titleBar.activeBackground": "#6ed0bf",
+        "titleBar.inactiveBackground": "#6ed0bf99",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveForeground": "#15202b99",
+        "statusBar.background": "#6ed0bf",
+        "statusBarItem.hoverBackground": "#47c4ae",
+        "statusBar.foreground": "#15202b"
+    },
 }
