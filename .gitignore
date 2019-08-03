@@ -1,3 +1,5 @@
-/node_modules
-/config/default.json
-/package-lock.json
+#Node modules
+node_modules
+
+#mongo
+config/default.json

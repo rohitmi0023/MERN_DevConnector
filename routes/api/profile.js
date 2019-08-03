@@ -6,6 +6,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const Profile = require('../../models/Profile');
+const Post = require('../../models/Post');
 const User = require('../../models/User');
 // const Post = require('../../models/Post');
 
@@ -146,7 +147,8 @@ router.get('/user/:user_id', async (req, res) => {
 // @access   Private
 router.delete('/', auth, async (req, res) => {
 	try {
-		//@todo - remove users posts
+		//Remove user post 
+		await Post.deleteMany({ user: req.user.id })
 		//Remove Profile
 		await Profile.findOneAndRemove({ user: req.user.id });
 		//Remove User
@@ -202,7 +204,10 @@ router.put(
 			description
 		};
 		try {
-			const profile = await Profile.findOne({ user: req.user_id });
+			const profile = await Profile.findOne({ user: req.user.id });
+			if (!profile) {
+				return res.status(400).send('No profile f found.');
+			}
 			profile.experience.unshift(newExp);
 			await profile.save();
 			res.json(profile);
@@ -240,10 +245,13 @@ router.put(
 	[
 		auth,
 		[
-			check('school', 'Title is required')
+			check('school', 'School is required')
 				.not()
 				.isEmpty(),
-			check('degree', 'Company is required')
+			check('degree', 'Degree is required')
+				.not()
+				.isEmpty(),
+			check('fieldofstudy', 'Field of study is required')
 				.not()
 				.isEmpty(),
 			check('from', 'From date is required')
@@ -256,18 +264,27 @@ router.put(
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
 		}
-		const { school, degree, from, to, current, description } = req.body;
+		const {
+			school,
+			degree,
+			fieldofstudy,
+			from,
+			to,
+			current,
+			description
+		} = req.body;
 
 		const newEdu = {
 			school,
 			degree,
+			fieldofstudy,
 			from,
 			to,
 			current,
 			description
 		};
 		try {
-			const profile = await Profile.findOne({ user: req.user_id });
+			const profile = await Profile.findOne({ user: req.user.id });
 			profile.education.unshift(newEdu);
 			await profile.save();
 			res.json(profile);
