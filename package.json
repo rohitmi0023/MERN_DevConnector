@@ -19,7 +19,7 @@
 		"gravatar": "^1.8.0",
 		"jsonwebtoken": "^8.5.1",
 		"logger": "0.0.1",
-		"mongoose": "^5.6.3",
+		"mongoose": "^5.7.5",
 		"promise-retry": "^1.1.1",
 		"prop-types": "^15.7.2",
 		"request": "^2.88.0",
